@@ -1,6 +1,6 @@
 ## Chatbot project from SuperSimpleDev's React Course
 
-To run:
+This project is the first project in SuperSimpleDev's React Course. To run:
 
 ```bash
 npm install
