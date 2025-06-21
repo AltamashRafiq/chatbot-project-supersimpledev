@@ -5,9 +5,9 @@ import { Chatbot } from "./Chatbot";
 import "./App.css";
 
 function App() {
-  const cached = localStorage.getItem("messages");
+  const cachedMessages = localStorage.getItem("messages");
   const [chatMessages, setChatMessages] = useState(
-    cached ? JSON.parse(cached) : []
+    cachedMessages ? JSON.parse(cachedMessages) : []
   );
 
   useEffect(() => {

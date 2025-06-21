@@ -1,14 +1,20 @@
 import { useState } from "react";
-import { Chatbot, has_google_api_key } from "../Chatbot";
+import { Chatbot } from "../Chatbot";
+import type { ChatMessagesType } from "../types";
 import dayjs from "dayjs";
 import LoadingSpinnerGif from "../assets/loading-spinner.gif";
 import "./ChatInput.css";
 
-export function ChatInput({ chatMessages, setChatMessages }) {
+type ChatInputProps = {
+  chatMessages: ChatMessagesType;
+  setChatMessages: (chatMessages: ChatMessagesType) => void;
+};
+
+export function ChatInput({ chatMessages, setChatMessages }: ChatInputProps) {
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  function saveInputText(event) {
+  function saveInputText(event: { target: { value: string } }) {
     setInputText(event.target.value);
   }
 
@@ -34,13 +40,12 @@ export function ChatInput({ chatMessages, setChatMessages }) {
         message: <img src={LoadingSpinnerGif} className="loading-spinner" />,
         sender: "robot",
         id: crypto.randomUUID(),
+        time: "",
       },
     ]);
 
     setIsLoading(true);
-    const response = has_google_api_key
-      ? await Chatbot.getResponseAsync(newChatMessages)
-      : await Chatbot.getResponseAsync(inputText);
+    const response = await Chatbot.getResponseAsync(inputText);
     setIsLoading(false);
 
     setChatMessages([
@@ -54,7 +59,7 @@ export function ChatInput({ chatMessages, setChatMessages }) {
     ]);
   }
 
-  function handleKeyDown(event) {
+  function handleKeyDown(event: { key: string }) {
     if (isLoading || inputText === "") {
       return;
     }
@@ -76,7 +81,7 @@ export function ChatInput({ chatMessages, setChatMessages }) {
     <div className="chat-input-container">
       <input
         placeholder="Send a message to Chatbot"
-        size="30"
+        size={30}
         onChange={saveInputText}
         onKeyDown={handleKeyDown}
         value={inputText}

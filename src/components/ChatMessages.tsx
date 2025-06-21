@@ -1,21 +1,13 @@
 import { useEffect, useRef } from "react";
 import { ChatMessage } from "./ChatMessage";
+import type { ChatMessagesType } from "../types";
 import "./ChatMessages.css";
 
-type ChatMessage = {
-  message: string | React.ReactElement;
-  sender: string;
-  id: string;
-  time: string;
-};
-
-type ChatMessages = ChatMessage[];
-
 type ChatMessagesProps = {
-  chatMessages: ChatMessages;
+  chatMessages: ChatMessagesType;
 };
 
-function useAutoScroll(dependencies: ChatMessages[]) {
+function useAutoScroll(dependencies: ChatMessagesType[]) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
