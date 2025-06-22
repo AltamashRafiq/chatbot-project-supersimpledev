@@ -4,6 +4,7 @@ import type { ChatMessagesType } from "../types";
 import dayjs from "dayjs";
 import LoadingSpinnerGif from "../assets/loading-spinner.gif";
 import "./ChatInput.css";
+import TextareaAutosize from "react-textarea-autosize";
 
 type ChatInputProps = {
   chatMessages: ChatMessagesType;
@@ -59,15 +60,25 @@ export function ChatInput({ chatMessages, setChatMessages }: ChatInputProps) {
     ]);
   }
 
-  function handleKeyDown(event: { key: string }) {
-    if (isLoading || inputText === "") {
-      return;
+  function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    /* This was very not easy to implement and may still have bugs :( */
+    if (event.key === "Enter") {
+      if (event.shiftKey) {
+        // shift enter to add new line :) Thanks GPT
+        return;
+      }
+
+      if (inputText !== "" && !isLoading) {
+        // some text is available and not loading
+        event.preventDefault(); // prevent newline
+        sendMessage();
+      } else {
+        // if no text or in loading state, cannot make new line either
+        event.preventDefault();
+      }
     }
 
-    if (event.key == "Enter") {
-      sendMessage();
-    }
-    if (event.key == "Escape") {
+    if (event.key === "Escape") {
       setInputText("");
     }
   }
@@ -79,9 +90,8 @@ export function ChatInput({ chatMessages, setChatMessages }: ChatInputProps) {
 
   return (
     <div className="chat-input-container">
-      <input
+      <TextareaAutosize
         placeholder="Send a message to Chatbot"
-        size={30}
         onChange={saveInputText}
         onKeyDown={handleKeyDown}
         value={inputText}

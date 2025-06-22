@@ -7,11 +7,13 @@
   border-radius: 10px;
   font-size: 15px;
   cursor: pointer;
+  padding: 12px 15px;
 }
 
 .clear-button {
   background-color: rgb(238, 238, 238);
   color: black;
+  padding: 12px 15px;
 }
 
 .chat-input {
@@ -19,13 +21,14 @@
   border-radius: 10px;
   border-width: 1px;
   font-size: 15px;
-
+  font-family: Arial;
   flex-grow: 1;
 }
 
 .chat-input-container {
   display: flex;
   margin-bottom: 60px;
+  align-items: center;
 }
 
 .loading-spinner {
